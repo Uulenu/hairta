@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -8,6 +9,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: background-color 2s ease;
+}
+
+body.dark-mode {
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
 }
 
 .container {
@@ -16,13 +22,23 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: color 2s ease;
+}
+
+.container.dark-mode {
+    color: #ccc;
 }
 
 h1 {
     font-size: 40px;
     margin-bottom: 30px;
     color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0px 0px 8px #ff99cc, 0px 0px 12px #ff6699;
+}
+
+h1.dark-mode {
+    color: #ddd;
+    text-shadow: 0px 0px 8px #333, 0px 0px 12px #222;
 }
 
 .buttons {
@@ -41,6 +57,25 @@ button {
     border-radius: 25px;
     transition: all 0.3s ease;
     position: relative;
+    box-shadow: 0px 0px 8px rgba(255, 102, 153, 0.6);
+}
+
+button.dark-mode {
+    background-color: #555;
+    color: #ccc;
+    box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.6);
+}
+
+button:hover {
+    box-shadow: 0px 0px 12px rgba(255, 102, 153, 1);
+    background-color: #555;
+    color: white;
+}
+
+button.dark-mode:hover {
+    box-shadow: 0px 0px 12px rgba(50, 50, 50, 1);
+    background-color: #333;
+    color: #fff;
 }
 
 #keynoteVideo {
@@ -54,11 +89,11 @@ button {
     z-index: 100;
 }
 
+/* Button Styles */
 #yesBtn {
     background-color: #ff4d4d;
     color: white;
     transition: all 0.3s ease-in-out;
-    position: relative;
 }
 
 #yesBtn:hover {
@@ -72,51 +107,35 @@ button {
 
 #noBtn:hover {
     background-color: #ffcccc;
+    color: #cc0000; /* Change text color on hover */
 }
 
-/* Flowers Animation */
-.flower {
-    position: absolute;
-    top: -10%;
-    opacity: 0.8;
-    animation: flower-fall linear infinite;
+/* Additional styles for the new buttons */
+button#option1Button, button#option2Button {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 24px; /* Increase font size */
+    padding: 15px 30px; /* Increase padding */
+    position: absolute; /* Position them absolutely */
 }
 
-@keyframes flower-fall {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(100vh); opacity: 0; }
+button#option1Button {
+    top: 20%; /* Position option1Button */
+    left: 20%;
 }
 
-/* Confetti */
-.confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #ff4d4d;
-    animation: confetti-fall 2s linear infinite;
+button#option2Button {
+    top: 20%; /* Position option2Button */
+    right: 20%;
 }
 
-@keyframes confetti-fall {
-    0% {
-        transform: translateY(-10vh) rotate(0deg);
-    }
-    100% {
-        transform: translateY(110vh) rotate(360deg);
-    }
+button#option1Button:hover, button#option2Button:hover {
+    background-color: #666;
 }
 
-.cursor-trail {
-    position: absolute;
-    font-size: 20px;
-    pointer-events: none;
-    animation: fade 1s linear forwards;
-}
-
-@keyframes fade {
-    0% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.5); }
-}
-
+/* Footer Styles */
 .footer {
     text-align: center;
     padding: 15px 10px;
@@ -124,10 +143,16 @@ button {
     color: #fff;
     font-size: 18px;
     font-weight: bold;
-    border-top: 2px solid #ff9a9e, #fad0c4;
+    border-top: 2px solid transparent; /* Improve border-top style */
+    background-clip: padding-box; /* Ensure gradient background doesn't overlap border */
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+.footer.dark-mode {
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    color: #ccc;
 }
 
 .footer .author {
@@ -135,10 +160,19 @@ button {
     color: #423e98;
 }
 
+.footer .author.dark-mode {
+    color: #888;
+}
+
 .footer .author:hover {
     color: #d949b7;
 }
 
+.footer .author.dark-mode:hover {
+    color: #bbb;
+}
+
+/* Slide Container */
 #slideContainer {
     position: absolute;
     top: 0;
@@ -155,31 +189,34 @@ button {
     z-index: 10;
     transition: opacity 1s ease-in-out;
 }
-.funny-face {
+
+/* Flowers Animation */
+.flower {
     position: absolute;
-    font-size: 50px;
-    animation: pop-up 1s ease-in-out;
+    top: -10%;
+    opacity: 0.8;
+    animation: flower-fall linear infinite;
 }
 
-@keyframes pop-up {
-    0% { transform: scale(0); opacity: 0; }
-    50% { transform: scale(1.5); opacity: 1; }
-    100% { transform: scale(1); opacity: 0; }
+@keyframes flower-fall {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
 }
 
-.firework {
+/* Cursor Trail */
+.cursor-trail {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: yellow;
-    border-radius: 50%;
-    animation: explode 1s ease-out;
+    font-size: 20px;
+    pointer-events: none;
+    animation: fade 1s linear forwards;
 }
 
-@keyframes explode {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(5); opacity: 0; }
+@keyframes fade {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.5); }
 }
+
+/* Heart Explosion */
 .heart-explosion {
     position: absolute;
     font-size: 40px;
@@ -191,15 +228,52 @@ button {
     100% { transform: scale(3) translateY(-50px); opacity: 0; }
 }
 
+/* Sparkle Animation */
+.sparkle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ffccff;
+    box-shadow: 0px 0px 10px #ff99ff, 0px 0px 20px #ff66cc;
+    border-radius: 50%;
+    animation: sparkleFade 1.5s linear;
+}
+
+@keyframes sparkleFade {
+    0% { transform: scale(0.5); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+/* I ❤️ YOU Animation */
+.love-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px; /* Slightly smaller font size */
+    font-weight: bold;
+    color: #ff0055;
+    text-shadow: 0px 0px 10px #ff99cc, 0px 0px 20px #ff6699;
+    animation: love-pop 6s ease-in-out, pulseEffect 1.5s infinite alternate;
+    width: 90%; /* Ensure the text container takes most of the width */
+    text-align: center; /* Center text horizontally */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+/* Romantic Overlay */
 .romantic-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 0, 100, 0.2);
-    backdrop-filter: blur(10px);
-    z-index: 999;
+    background: rgba(255, 0, 100, 0.3);
+    backdrop-filter: blur(15px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     animation: fade-in 2s ease-in-out;
 }
 
@@ -207,37 +281,50 @@ button {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
-.love-animation {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 80px;
+
+/* Love Message */
+.love-message {
+    font-size: 40px;
     font-weight: bold;
     color: #ff0055;
-    animation: love-pop 6s ease-in-out;
-}
-
-@keyframes love-pop {
-    0% { transform: scale(0.5) translate(-50%, -50%); opacity: 0; }
-    50% { transform: scale(1.2) translate(-50%, -50%); opacity: 1; }
-    100% { transform: scale(1) translate(-50%, -50%); opacity: 0; }
-}
-.restart-button {
+    text-shadow: 0px 0px 15px #ff99cc, 0px 0px 30px #ff6699;
+    animation: pulseEffect 1.5s infinite alternate;
     position: fixed;
-    bottom: 20px;
+    top: 50%; /* Adjust top position */
     left: 50%;
-    transform: translateX(-50%);
-    background: #ff3366;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: 0.3s;
+    transform: translate(-50%, -40%); /* Adjust transform to ensure full visibility */
 }
 
-.restart-button:hover {
-    background: #ff6699;
+@keyframes pulseEffect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Confetti Effect */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ff0;
+    opacity: 0.7;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
 }

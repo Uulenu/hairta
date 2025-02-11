@@ -1,34 +1,34 @@
 let noClickCount = 0;
-document.getElementById("yesBtn").disabled = true;
-document.getElementById("noBtn").disabled = true;
+document.getElementById('yesBtn').disabled = true;
+document.getElementById('noBtn').disabled = true;
 
-document.addEventListener("DOMContentLoaded", function () {
-    const introMusic = document.getElementById("introMusic");
-    const keynoteVideo = document.getElementById("keynoteVideo");
+document.addEventListener('DOMContentLoaded', function () {
+    const introMusic = document.getElementById('introMusic');
+    const keynoteVideo = document.getElementById('keynoteVideo');
 
     // Start music on click or keydown
     function startMusic() {
-        introMusic.play().catch(error => console.log("Autoplay blocked:", error));
-        document.removeEventListener("click", startMusic);
-        document.removeEventListener("keydown", startMusic);
+        introMusic.play().catch(error => console.log('Autoplay blocked:', error));
+        document.removeEventListener('click', startMusic);
+        document.removeEventListener('keydown', startMusic);
     }
 
-    document.addEventListener("click", startMusic);
-    document.addEventListener("keydown", startMusic);
+    document.addEventListener('click', startMusic);
+    document.addEventListener('keydown', startMusic);
 
     // Wait for 6.5 seconds and transition to the video
     setTimeout(() => {
-        document.getElementById("slideContainer").style.opacity = "0";
+        document.getElementById('slideContainer').style.opacity = '0';
         setTimeout(() => {
-            document.getElementById("slideContainer").style.display = "none";
+            document.getElementById('slideContainer').style.display = 'none';
             introMusic.pause();
             introMusic.currentTime = 0;
-            keynoteVideo.style.display = "block";
+            keynoteVideo.style.display = 'block';
             keynoteVideo.play();
-            keynoteVideo.addEventListener("ended", function () {
-                keynoteVideo.style.display = "none";
-                document.getElementById("mainContainer").style.display = "flex";
-                document.getElementById("noBtn").disabled = false;
+            keynoteVideo.addEventListener('ended', function () {
+                keynoteVideo.style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'flex';
+                document.getElementById('noBtn').disabled = false;
             });
         }, 10);
     }, 6500);
@@ -38,30 +38,30 @@ document.addEventListener("DOMContentLoaded", function () {
 function noClicked() {
     noClickCount++;
     hardShakeScreen();
-    document.getElementById("noBtn").disabled = true;
-    setTimeout(() => document.getElementById("noBtn").disabled = false, 1000);
+    document.getElementById('noBtn').disabled = true;
+    setTimeout(() => document.getElementById('noBtn').disabled = false, 1000);
 
     const messages = [
-        "Нээрээ юу?! 😳", "Бодоод үзээрэй! 😡", "NO гээд хэрэггүй шүү! 🤨",
-        "Чи буруу товч дарсан байх аа? 😁", "Дахиад бод! 🧐", "За за, сүүлийн боломж шүү! 🥺",
-        "Сүүлийн боломж гэж хэлээд байхад 😩", "Чи үнэхээр 'NO' гээд байгаамуу? 😭",
-        "Зүрхийг минь шархлуулж байна даа ЧИ 💔🥹", "Одооноос 'NO' гэж байхгүй болсон ! 😈"
+        'Нээрээ юу?! 😳', 'Бодоод үзээрэй! 😡', 'NO гээд хэрэггүй шүү! 🤨',
+        'Чи буруу товч дарсан байх аа? 😁', 'Дахиад бод! 🧐', 'За за, сүүлийн боломж шүү! 🥺',
+        'Сүүлийн боломж гэж хэлээд байхад 😩', 'Чи үнэхээр "NO" гээд байгаамуу? 😭',
+        'Зүрхийг минь шархлуулж байна даа ЧИ 💔🥹', 'Одооноос "NO" гэж байхгүй болсон ! 😈'
     ];
 
-    document.getElementById("question").innerText = messages[Math.min(noClickCount - 1, messages.length - 1)];
+    document.getElementById('question').innerText = messages[Math.min(noClickCount - 1, messages.length - 1)];
 
     if (noClickCount === 9) {
-        document.getElementById("yesBtn").disabled = false;
+        document.getElementById('yesBtn').disabled = false;
     }
 
     if (noClickCount === 10) {
-        document.getElementById("noBtn").remove();
-        const yesBtn = document.getElementById("yesBtn");
-        yesBtn.style.position = "static";
-        yesBtn.style.margin = "20px auto";
+        document.getElementById('noBtn').remove();
+        const yesBtn = document.getElementById('yesBtn');
+        yesBtn.style.position = 'static';
+        yesBtn.style.margin = '20px auto';
     }
 
-    document.getElementById("sadViolin").play();
+    document.getElementById('sadViolin').play();
     changeFooterBackground();
     changeFooterColor();
     showFunnyFaces();
@@ -71,97 +71,104 @@ function noClicked() {
 function yesClicked() {
     if (noClickCount < 9) return;
 
-    document.getElementById("loveMoment").play();
-    const container = document.querySelector(".container");
+    document.getElementById('sadViolin').pause(); // Stop the sad violin
+    document.getElementById('sadViolin').currentTime = 0; // Reset the sad violin
+
+    document.getElementById('loveMoment').play();
+    const container = document.querySelector('.container');
     container.innerHTML = `<h1 id='loveLetter'></h1>`;
 
-    let letterText = "Хайрт минь, Хайртай шүү! ❤️💖";
+    let letterText = 'Хайрт минь, Хайртай шүү! ❤️💖';
     let i = 0;
 
     function typeLetter() {
         if (i < letterText.length) {
-            document.getElementById("loveLetter").innerHTML += letterText.charAt(i);
+            document.getElementById('loveLetter').innerHTML += letterText.charAt(i);
             i++;
             setTimeout(typeLetter, 100);
         } else {
-            startRomanticEffects();
+            setTimeout(() => {
+                startRomanticEffects();
+                triggerConfetti(); // Trigger confetti effect
+                showFinalMessage(); // Show final message after all effects
+            }, 4000); // Wait for 4 seconds before proceeding to the next actions
         }
     }
     typeLetter();
 }
 
-function fireworksEffect() {
-    for (let i = 0; i < 30; i++) {
-        let firework = document.createElement("div");
-        firework.classList.add("firework");
-        firework.style.left = Math.random() * 100 + "vw";
-        firework.style.top = Math.random() * 100 + "vh";
-        document.body.appendChild(firework);
-        setTimeout(() => firework.remove(), 1500);
-    }
+// Function to show the final message and restart button
+function showFinalMessage() {
+    const container = document.querySelector('.container');
+    container.innerHTML = `<h1>Thank you for experiencing this journey! ❤️</h1>`;
+    
+    const restartButton = document.createElement('button');
+    restartButton.innerText = 'Restart';
+    restartButton.addEventListener('click', () => location.reload()); // Reload the page
+    container.appendChild(restartButton);
+
+    const nextStepButton = document.createElement('button');
+    nextStepButton.innerText = 'Next Step';
+    nextStepButton.addEventListener('click', () => proceedToNextStep());
+    container.appendChild(nextStepButton);
 }
 
-function changeBackgroundRomantic() {
-    document.body.style.transition = "background 1s ease-in-out";
-    document.body.style.background = "linear-gradient(135deg, #ff758c, #ff7eb3, #fad0c4)";
-}
+// Function to handle the next step
+function proceedToNextStep() {
+    const container = document.querySelector('.container');
+    container.innerHTML = `<h1>Proceeding to the next step... 🚀</h1>`;
+    
+    setTimeout(() => {
+        document.body.style.transition = 'background-color 2s ease'; // Smooth transition for background color
+        document.body.style.backgroundColor = '#202C39'; // Change background to the first dark shade
+        container.style.transition = 'color 2s ease'; // Smooth transition for text color
+        container.style.color = '#F1E9DA'; // Change text color to a lighter shade
+        container.innerHTML = ''; // Clear the container
 
-function confettiExplosion() {
-    const confettiContainer = document.getElementById("confettiContainer");
-    for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement("div");
-        confetti.classList.add("confetti");
-        confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.animationDuration = Math.random() * 2 + 1 + "s";
-        confettiContainer.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 2000);
-    }
+        const option1Button = document.createElement('button');
+        option1Button.innerText = 'Option 1';
+        option1Button.addEventListener('click', () => alert('Option 1 selected'));
+        container.appendChild(option1Button);
+
+        const option2Button = document.createElement('button');
+        option2Button.innerText = 'Option 2';
+        option2Button.addEventListener('click', () => alert('Option 2 selected'));
+        container.appendChild(option2Button);
+    }, 4000); // Wait for 4 seconds before changing the background and adding buttons
+
+    // Additional transitions for background color
+    setTimeout(() => {
+        document.body.style.backgroundColor = '#7D8491'; // Change background to the second dark shade
+    }, 6000); // Wait for 2 more seconds
+
+    setTimeout(() => {
+        document.body.style.backgroundColor = '#F1E9DA'; // Change background to the final light shade
+    }, 8000); // Wait for 2 more seconds
 }
 
 // Shake effect
 function hardShakeScreen() {
-    let intensity = 15;
+    let intensity = 10;
     let count = 0;
     let maxShakes = 9;
     let interval = setInterval(() => {
-        let x = (Math.random() * intensity * 2 - intensity) + "px";
-        let y = (Math.random() * intensity * 2 - intensity) + "px";
+        let x = (Math.random() * intensity * 2 - intensity) + 'px';
+        let y = (Math.random() * intensity * 2 - intensity) + 'px';
         document.body.style.transform = `translate(${x}, ${y})`;
         count++;
         if (count > maxShakes) {
             clearInterval(interval);
-            document.body.style.transform = "translate(0, 0)";
+            document.body.style.transform = 'translate(0, 0)';
         }
     }, 30);
 }
 
-function showFunnyFaces() {
-    const faces = ["😡", "🤨", "🤯", "😔", "😱", "🥲", "😭", "💔", "🙁", "🥵", "🙂‍↔️", "🙄", "☃️", "😬", "🤔", "😵"];
-    for (let i = 0; i < 7; i++) {
-        const face = document.createElement("div");
-        face.innerHTML = faces[Math.floor(Math.random() * faces.length)];
-        face.classList.add("funny-face");
-        face.style.left = Math.random() * 80 + "vw";
-        face.style.top = Math.random() * 80 + "vh";
-        document.body.appendChild(face);
-        setTimeout(() => face.remove(), 1000);
-    }
-}
-
-function changeFooterBackground() {
-    document.querySelector(".footer").style.background = getRandomColor();
-}
-
-function changeFooterColor() {
-    document.querySelector(".author").style.color = getRandomColor();
-}
-
 // Mouse cursor trail effect
-document.addEventListener("mousemove", (e) => {
-    const trail = document.createElement("div");
-    trail.classList.add("cursor-trail");
-    trail.innerHTML = "❤️";
-    trail.style.position = "absolute";
+document.addEventListener('mousemove', (e) => {
+    const trail = document.createElement('div');
+    trail.classList.add('cursor-trail');
+    trail.innerHTML = '❤️';
+    trail.style.position = 'absolute';
     trail.style.left = `${e.pageX}px`;
     trail.style.top = `${e.pageY}px`;
     trail.style.fontSize = `${Math.random() * 15 + 15}px`;
@@ -169,65 +176,96 @@ document.addEventListener("mousemove", (e) => {
     setTimeout(() => trail.remove(), 1000);
 });
 
-function createFlower() {
-    const emojis = ["🌹", "😘", "🍇", "🍫", "❤️‍🔥"];
-    emojis.forEach((emoji) => {
-        const flower = document.createElement("div");
-        flower.innerHTML = emoji;
-        flower.classList.add("flower");
-        flower.style.left = Math.random() * 100 + "vw";
-        flower.style.animationDuration = Math.random() * 3 + 2 + "s";
-        document.getElementById("flowerContainer").appendChild(flower);
-        setTimeout(() => flower.remove(), 5000);
-    });
+// Romantic effects
+function startRomanticEffects() {
+    setTimeout(() => heartExplosion(), 1500);
+    setTimeout(() => romanticOverlay(), 3000);
+    setTimeout(() => iLoveYouAnimation(), 4000);
 }
-setInterval(createFlower, 300);
 
 function heartExplosion() {
     for (let i = 0; i < 30; i++) {
-        let heart = document.createElement("div");
-        heart.classList.add("heart-explosion");
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.top = Math.random() * 100 + "vh";
+        let heart = document.createElement('div');
+        heart.classList.add('heart-explosion');
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = Math.random() * 100 + 'vh';
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 2000);
     }
 }
 
 function romanticOverlay() {
-    let overlay = document.createElement("div");
-    overlay.classList.add("romantic-overlay");
+    let overlay = document.createElement('div');
+    overlay.classList.add('romantic-overlay');
+    overlay.style.filter = 'blur(3px)'; // Adjust blur to make text visible
     document.body.appendChild(overlay);
+    setTimeout(() => overlay.remove(), 6000); // Remove overlay after 6 seconds
 }
 
 function iLoveYouAnimation() {
-    let loveText = document.createElement("div");
-    loveText.classList.add("love-animation");
-    loveText.innerText = "I ❤️ YOU!";
-    loveText.style.filter = "blur(0px)"; // Apply blur effect to the text
+    let loveText = document.createElement('div');
+    loveText.classList.add('love-animation');
+    loveText.innerText = 'I ❤️ YOU!';
+    loveText.style.position = 'fixed'; // Ensure the text is fixed on the screen
+    loveText.style.top = '50%'; // Center vertically
+    loveText.style.left = '50%'; // Center horizontally
+    loveText.style.transform = 'translate(-50%, -50%)'; // Adjust for perfect centering
+    loveText.style.width = '100%'; // Set width to 100%
+    loveText.style.textAlign = 'center'; // Center text horizontally
     document.body.appendChild(loveText);
-    setTimeout(() => loveText.remove(), 6000);
-}
-
-function showRestartButton() {
-    let restartBtn = document.createElement("button");
-    restartBtn.innerText = "❤ Дахин эхлүүлэх";
-    restartBtn.classList.add("restart-button");
-    restartBtn.onclick = () => location.reload();
-    restartBtn.style.display = "none";  // Hide it initially
-    document.body.appendChild(restartBtn);
-
-    // Show it after 9 seconds
     setTimeout(() => {
-        restartBtn.style.display = "block";
-        restartBtn.style.filter = "blur(5px)"; // Apply blur effect to the button
-    }, 9000);
+        loveText.innerText = 'My love, every heartbeat of mine whispers your name.';
+        setTimeout(() => {
+            loveText.remove(); // Remove the loveText before showing the final message
+            setTimeout(() => {
+                showFinalMessage(); // Show final message and buttons after all animations
+            }, 6000); // Wait for the overlay to be removed
+        }, 6000);
+    }, 6000);
 }
 
-function startRomanticEffects() {
-    setTimeout(() => heartExplosion(), 1500);
-    setTimeout(() => romanticOverlay(), 3000);
-    setTimeout(() => iLoveYouAnimation(), 4000);
-    setTimeout(() => showRestartButton(), 9000);  // Show restart button after 9 seconds
+// Flower creation
+function createFlower() {
+    const emojis = ['🌹', '😘', '🍇', '🍫', '❤️‍🔥'];
+    emojis.forEach((emoji) => {
+        const flower = document.createElement('div');
+        flower.innerHTML = emoji;
+        flower.classList.add('flower');
+        flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.animationDuration = Math.random() * 3 + 2 + 's';
+        document.getElementById('flowerContainer').appendChild(flower);
+        setTimeout(() => flower.remove(), 5000);
+    });
+}
+setInterval(createFlower, 300);
+
+// Sparkling effect
+function sparklingEffect() {
+    for (let i = 0; i < 20; i++) {
+        let star = document.createElement('div');
+        star.classList.add('sparkle');
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2000);
+    }
+}
+setInterval(sparklingEffect, 2000);
+
+// Confetti effect
+function triggerConfetti() {
+    const confettiContainer = document.createElement('div');
+    confettiContainer.classList.add('confetti-container');
+    document.body.appendChild(confettiContainer);
+
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+        confettiContainer.appendChild(confetti);
+    }
+
+    setTimeout(() => confettiContainer.remove(), 5000);
 }
