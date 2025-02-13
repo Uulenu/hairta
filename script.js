@@ -71,10 +71,11 @@ function noClicked() {
 function yesClicked() {
     if (noClickCount < 9) return;
 
-    document.getElementById('sadViolin').pause(); // Stop the sad violin
-    document.getElementById('sadViolin').currentTime = 0; // Reset the sad violin
+    document.getElementById('sadViolin').pause();
+    document.getElementById('sadViolin').currentTime = 0;
 
     document.getElementById('loveMoment').play();
+
     const container = document.querySelector('.container');
     container.innerHTML = `<h1 id='loveLetter'></h1>`;
 
@@ -88,62 +89,11 @@ function yesClicked() {
             setTimeout(typeLetter, 100);
         } else {
             setTimeout(() => {
-                startRomanticEffects();
-                triggerConfetti(); // Trigger confetti effect
-                showFinalMessage(); // Show final message after all effects
-            }, 4000); // Wait for 4 seconds before proceeding to the next actions
+                runRomanticEffects(); // After typing, start animations
+            }, 1000); // Small delay before animations start
         }
     }
     typeLetter();
-}
-
-// Function to show the final message and restart button
-function showFinalMessage() {
-    const container = document.querySelector('.container');
-    container.innerHTML = `<h1>Thank you for experiencing this journey! ❤️</h1>`;
-    
-    const restartButton = document.createElement('button');
-    restartButton.innerText = 'Restart';
-    restartButton.addEventListener('click', () => location.reload()); // Reload the page
-    container.appendChild(restartButton);
-
-    const nextStepButton = document.createElement('button');
-    nextStepButton.innerText = 'Next Step';
-    nextStepButton.addEventListener('click', () => proceedToNextStep());
-    container.appendChild(nextStepButton);
-}
-
-// Function to handle the next step
-function proceedToNextStep() {
-    const container = document.querySelector('.container');
-    container.innerHTML = `<h1>Proceeding to the next step... 🚀</h1>`;
-    
-    setTimeout(() => {
-        document.body.style.transition = 'background-color 2s ease'; // Smooth transition for background color
-        document.body.style.backgroundColor = '#202C39'; // Change background to the first dark shade
-        container.style.transition = 'color 2s ease'; // Smooth transition for text color
-        container.style.color = '#F1E9DA'; // Change text color to a lighter shade
-        container.innerHTML = ''; // Clear the container
-
-        const option1Button = document.createElement('button');
-        option1Button.innerText = 'Option 1';
-        option1Button.addEventListener('click', () => alert('Option 1 selected'));
-        container.appendChild(option1Button);
-
-        const option2Button = document.createElement('button');
-        option2Button.innerText = 'Option 2';
-        option2Button.addEventListener('click', () => alert('Option 2 selected'));
-        container.appendChild(option2Button);
-    }, 4000); // Wait for 4 seconds before changing the background and adding buttons
-
-    // Additional transitions for background color
-    setTimeout(() => {
-        document.body.style.backgroundColor = '#7D8491'; // Change background to the second dark shade
-    }, 6000); // Wait for 2 more seconds
-
-    setTimeout(() => {
-        document.body.style.backgroundColor = '#F1E9DA'; // Change background to the final light shade
-    }, 8000); // Wait for 2 more seconds
 }
 
 // Shake effect
@@ -198,30 +148,29 @@ function heartExplosion() {
 function romanticOverlay() {
     let overlay = document.createElement('div');
     overlay.classList.add('romantic-overlay');
-    overlay.style.filter = 'blur(3px)'; // Adjust blur to make text visible
+    overlay.style.filter = 'blur(1px)'; // Adjust blur to make text visible
     document.body.appendChild(overlay);
-    setTimeout(() => overlay.remove(), 6000); // Remove overlay after 6 seconds
+    setTimeout(() => overlay.remove(), 4500); // Remove overlay after 6 seconds
 }
 
 function iLoveYouAnimation() {
     let loveText = document.createElement('div');
     loveText.classList.add('love-animation');
     loveText.innerText = 'I ❤️ YOU!';
-    loveText.style.position = 'fixed'; // Ensure the text is fixed on the screen
-    loveText.style.top = '50%'; // Center vertically
-    loveText.style.left = '50%'; // Center horizontally
-    loveText.style.transform = 'translate(-50%, -50%)'; // Adjust for perfect centering
-    loveText.style.width = '100%'; // Set width to 100%
-    loveText.style.textAlign = 'center'; // Center text horizontally
     document.body.appendChild(loveText);
+
+    // Adjust size dynamically
+    if (window.innerWidth < 600) {
+        loveText.style.fontSize = '3rem';
+        loveText.style.top = '30%';
+    } else {
+        loveText.style.fontSize = '5rem';
+        loveText.style.top = '40%';
+    }
+
     setTimeout(() => {
         loveText.innerText = 'My love, every heartbeat of mine whispers your name.';
-        setTimeout(() => {
-            loveText.remove(); // Remove the loveText before showing the final message
-            setTimeout(() => {
-                showFinalMessage(); // Show final message and buttons after all animations
-            }, 6000); // Wait for the overlay to be removed
-        }, 6000);
+        setTimeout(() => loveText.remove(), 6000);
     }, 6000);
 }
 
@@ -268,4 +217,19 @@ function triggerConfetti() {
     }
 
     setTimeout(() => confettiContainer.remove(), 5000);
+}
+
+function runRomanticEffects() {
+    setTimeout(() => {
+        heartExplosion();
+        setTimeout(() => {
+            romanticOverlay();
+            setTimeout(() => {
+                iLoveYouAnimation();
+                setTimeout(() => {
+                    triggerConfetti(); // Trigger confetti after the final message
+                }, 9000); // Wait for the text animation to complete
+            }, 4000); // Delay to let overlay effect be seen
+        }, 4400); // Delay to let hearts explode first
+    }, 1500); // Start heart explosion first
 }

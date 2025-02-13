@@ -12,10 +12,6 @@ body {
     transition: background-color 2s ease;
 }
 
-body.dark-mode {
-    background: linear-gradient(135deg, #2c3e50, #4ca1af);
-}
-
 .container {
     position: relative;
     z-index: 2;
@@ -25,20 +21,11 @@ body.dark-mode {
     transition: color 2s ease;
 }
 
-.container.dark-mode {
-    color: #ccc;
-}
-
 h1 {
     font-size: 40px;
     margin-bottom: 30px;
     color: #fff;
     text-shadow: 0px 0px 8px #ff99cc, 0px 0px 12px #ff6699;
-}
-
-h1.dark-mode {
-    color: #ddd;
-    text-shadow: 0px 0px 8px #333, 0px 0px 12px #222;
 }
 
 .buttons {
@@ -60,22 +47,10 @@ button {
     box-shadow: 0px 0px 8px rgba(255, 102, 153, 0.6);
 }
 
-button.dark-mode {
-    background-color: #555;
-    color: #ccc;
-    box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.6);
-}
-
 button:hover {
     box-shadow: 0px 0px 12px rgba(255, 102, 153, 1);
     background-color: #555;
     color: white;
-}
-
-button.dark-mode:hover {
-    box-shadow: 0px 0px 12px rgba(50, 50, 50, 1);
-    background-color: #333;
-    color: #fff;
 }
 
 #keynoteVideo {
@@ -150,26 +125,13 @@ button#option1Button:hover, button#option2Button:hover {
     width: 100%;
 }
 
-.footer.dark-mode {
-    background: linear-gradient(135deg, #2c3e50, #4ca1af);
-    color: #ccc;
-}
-
 .footer .author {
     font-weight: bold;
     color: #423e98;
 }
 
-.footer .author.dark-mode {
-    color: #888;
-}
-
 .footer .author:hover {
     color: #d949b7;
-}
-
-.footer .author.dark-mode:hover {
-    color: #bbb;
 }
 
 /* Slide Container */
@@ -247,18 +209,20 @@ button#option1Button:hover, button#option2Button:hover {
 /* I ❤️ YOU Animation */
 .love-animation {
     position: fixed;
-    top: 50%;
+    top: 40%; /* Adjusted from 50% */
     left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 80px; /* Slightly smaller font size */
+    transform: translate(-50%, -40%); /* Adjusted from -50% */
+    font-size: 4rem; /* Slightly reduced for better fit */
     font-weight: bold;
     color: #ff0055;
     text-shadow: 0px 0px 10px #ff99cc, 0px 0px 20px #ff6699;
     animation: love-pop 6s ease-in-out, pulseEffect 1.5s infinite alternate;
-    width: 90%; /* Ensure the text container takes most of the width */
-    text-align: center; /* Center text horizontally */
-    white-space: normal; /* Allow text to wrap */
+    width: 80%; /* Reduce width to prevent overflow */
+    max-width: 600px; /* Limit max width */
+    text-align: center; /* Center the text */
+    white-space: normal; /* Allow text wrapping */
     word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word;
 }
 
 /* Romantic Overlay */
@@ -327,4 +291,62 @@ button#option1Button:hover, button#option2Button:hover {
         transform: translateY(100vh) rotate(360deg);
         opacity: 0;
     }
+}
+
+body.next-step {
+    background-color: #1a1a2e;
+    color: #f9f9f9;
+    transition: background-color 2s ease, color 2s ease;
+}
+
+body.next-step {
+    background: linear-gradient(135deg, #1a1a2e, #16213e); /* Dark gradient */
+    color: #f9f9f9; /* Light text */
+    transition: background 2s ease, color 2s ease;
+}
+
+.container.next-step {
+    color: #d63031; /* Red text for contrast */
+}
+
+.container.next-step {
+    color: #d63031;
+}
+
+button.next-step {
+    background-color: #16213e;
+    color: #f9f9f9;
+}
+
+button.next-step:hover {
+    background-color: #d63031;
+    color: #f9f9f9;
+}
+
+/* Additional Styles */
+#confettiContainer, #flowerContainer, #cursorTrail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    display: none;
+    text-align: center;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+}
+
+.footer .author {
+    color: #333;
+    text-decoration: none;
+}
+
+.footer .author:hover {
+    text-decoration: underline;
 }
